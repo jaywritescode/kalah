@@ -15,7 +15,7 @@ class Move:
         return: True if the same player should go again, otherwise False
         """
         it = islice(enumerate(iter(board)), self.selection, None)
-        
+
         (position, seedable) = next(it)
 
         while True:
@@ -27,7 +27,7 @@ class Move:
 
                 seedable.seed_sown()
                 seeds -= 1
-            
+
             if seedable is self.player.store:
                 return True
             elif seedable in self.player.houses and seedable.count == 1:

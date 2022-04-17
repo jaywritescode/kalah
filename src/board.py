@@ -1,8 +1,14 @@
 from itertools import cycle
 
+
 class Board:
     def __init__(self):
-        self.board = [Store()] + [House() for _ in range(6)] + [Store()] + [House() for _ in range(6)]
+        self.board = (
+            [Store()]
+            + [House() for _ in range(6)]
+            + [Store()]
+            + [House() for _ in range(6)]
+        )
 
     def __iter__(self):
         return cycle(self.board)

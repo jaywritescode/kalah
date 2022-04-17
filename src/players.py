@@ -37,5 +37,7 @@ class RandomChoicePlayer(AbstractPlayer):
         super().__init__("Computer", houses, store, offset)
 
     def get_move(self):
-        choice = random.choice([idx for (idx, val) in enumerate(self.houses) if val.count > 0])
+        choice = random.choice(
+            [idx for (idx, val) in enumerate(self.houses) if val.count > 0]
+        )
         return Move(self, choice)

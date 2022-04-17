@@ -3,11 +3,11 @@ from src.board import Board
 
 from src.players import KeyboardInterfacePlayer, RandomChoicePlayer
 
-class Kalah:
 
+class Kalah:
     def __init__(self):
         self.board = Board()
-        self.player1 = KeyboardInterfacePlayer('Me', self.board[1:7], self.board[7], 0)
+        self.player1 = KeyboardInterfacePlayer("Me", self.board[1:7], self.board[7], 0)
         self.player2 = RandomChoicePlayer(self.board[-6:], self.board[0], 7)
 
         self.players = cycle([self.player1, self.player2])
@@ -40,8 +40,6 @@ class Kalah:
                 self.outcome = "it's a tie"
 
 
-
-
 # class MinimaxPlayer(AbstractPlayer):
 #     def __init__(self):
 #         super().__init__("Computer")
@@ -50,6 +48,6 @@ class Kalah:
 #         raise NotImplemented
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     k = Kalah()
     k.play()

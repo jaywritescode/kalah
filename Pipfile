@@ -4,6 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+more-itertools = "*"
+black = "*"
 
 [dev-packages]
 
