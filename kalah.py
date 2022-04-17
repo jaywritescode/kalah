@@ -15,6 +15,8 @@ class Kalah:
 
     def play(self):
         while self.outcome is None:
+            print(self.board)
+
             self.next()
 
     def next(self):
@@ -38,7 +40,6 @@ class Kalah:
                 self.outcome = self.player2
             case _:
                 self.outcome = "it's a tie"
-
 
 # class MinimaxPlayer(AbstractPlayer):
 #     def __init__(self):

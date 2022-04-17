@@ -22,6 +22,14 @@ class Board:
     def get_opposite_house(self, position):
         return len(self.board) - position
 
+    def __str__(self):
+        lines = [
+            "   {:>2} {:>2} {:>2} {:>2} {:>2} {:>2}".format(*[house.count for house in self.board[-6:]]),
+            "{:>2}                   {:>2}".format(self.board[0].count, self.board[7].count),
+            "   {:>2} {:>2} {:>2} {:>2} {:>2} {:>2}".format(*[house.count for house in self.board[1:7]])
+        ]
+        return "\n".join(lines)
+
 
 class Seedable:
     def __init__(self, initial_count=0):
