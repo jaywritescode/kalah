@@ -28,7 +28,7 @@ class KeyboardInterfacePlayer(AbstractPlayer):
     def get_move(self):
         while True:
             i = int(input("Which house (left-most is #1)? "))
-            if 0 <= i <= 6 and self.houses[i].count > 0:
+            if 0 < i <= 6 and self.houses[i].count > 0:
                 return Move(self, i)
 
 
