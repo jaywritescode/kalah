@@ -5,10 +5,10 @@ from src.players import KeyboardInterfacePlayer, RandomChoicePlayer
 
 
 class Kalah:
-    def __init__(self):
+    def __init__(self, player1_class=KeyboardInterfacePlayer, player2_class=RandomChoicePlayer):
         self.board = Board()
-        self.player1 = KeyboardInterfacePlayer("Me", self.board[1:7], self.board[7], 0)
-        self.player2 = RandomChoicePlayer(self.board[-6:], self.board[0], 7)
+        self.player1 = player1_class.create(self.board[1:7], self.board[7], 0, name="Me")
+        self.player2 = player2_class.create(self.board[-6:], self.board[0], 7)
 
         self.players = cycle([self.player1, self.player2])
         self.outcome = None

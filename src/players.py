@@ -20,9 +20,13 @@ class AbstractPlayer:
     def __repr__(self):
         return self.name
 
+    @classmethod
+    def create(cls, houses, store, offset, **kwargs):
+        return cls(houses, store, offset, **kwargs)
+
 
 class KeyboardInterfacePlayer(AbstractPlayer):
-    def __init__(self, name, houses, store, offset):
+    def __init__(self, houses, store, offset, *, name):
         super().__init__(name, houses, store, offset)
 
     def get_move(self):
