@@ -3,7 +3,7 @@ import random
 
 from src.move import Move
 
-PlayerState = namedtuple('PlayerState', ['houses', 'score'])
+PlayerState = namedtuple("PlayerState", ["houses", "score"])
 
 
 class AbstractPlayer:
