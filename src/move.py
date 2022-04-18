@@ -1,4 +1,4 @@
-from itertools import islice
+from more_itertools import consume
 
 from src.board import Store
 
@@ -14,7 +14,8 @@ class Move:
 
         return: True if the same player should go again, otherwise False
         """
-        it = islice(enumerate(iter(board)), self.selection, None)
+        it = enumerate(iter(board))
+        consume(it, n=(self.selection + self.player.offset))
 
         (position, seedable) = next(it)
 
