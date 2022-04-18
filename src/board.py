@@ -24,7 +24,7 @@ class Board:
 
     def __str__(self):
         lines = [
-            "   {:>2} {:>2} {:>2} {:>2} {:>2} {:>2}".format(*[house.count for house in self.board[-6:]]),
+            "   {:>2} {:>2} {:>2} {:>2} {:>2} {:>2}".format(*[house.count for house in self.board[:-6:-1]]),
             "{:>2}                   {:>2}".format(self.board[0].count, self.board[7].count),
             "   {:>2} {:>2} {:>2} {:>2} {:>2} {:>2}".format(*[house.count for house in self.board[1:7]])
         ]
