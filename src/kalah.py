@@ -1,4 +1,6 @@
 from itertools import cycle
+
+from more_itertools import spy
 from src.board import Board
 
 from src.players import KeyboardInterfacePlayer, RandomChoicePlayer
@@ -40,6 +42,15 @@ class Kalah:
                 self.outcome = self.player2
             case _:
                 self.outcome = "it's a tie"
+
+    def __repr__(self):
+        pieces = [str(self.board)]
+        if self.outcome is not None:
+            pieces.append(f"outcome: {str(self.outcome)}")
+        else:
+            (next_player, self.players) = spy(self.players)
+            pieces.append(f"current player: {str(next_player)}")
+        return "\n".join(pieces)
 
 # class MinimaxPlayer(AbstractPlayer):
 #     def __init__(self):
