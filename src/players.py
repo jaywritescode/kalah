@@ -1,6 +1,9 @@
+from collections import namedtuple
 import random
 
 from src.move import Move
+
+PlayerState = namedtuple('PlayerState', ['houses', 'score'])
 
 
 class AbstractPlayer:
@@ -16,6 +19,10 @@ class AbstractPlayer:
     @property
     def score(self):
         return self.store.count
+
+    @property
+    def state(self):
+        return PlayerState(houses=[h.count for h in self.houses], score=self.score)
 
     def __repr__(self):
         return self.name
