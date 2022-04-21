@@ -33,13 +33,13 @@ class AbstractPlayer:
 
 
 class KeyboardInterfacePlayer(AbstractPlayer):
-    def __init__(self, houses, store, offset, *, name):
+    def __init__(self, houses, store, offset, *, name="Default player"):
         super().__init__(name, houses, store, offset)
 
     def get_move(self):
         while True:
-            i = ord(input("Which house? ")) - ord('a')
-            if 0 < i <= 6 and self.houses[i].count > 0:
+            i = ord(input("Which house? ")) - ord("a")
+            if 0 <= i < 6 and self.houses[i].count > 0:
                 return Move(self, self.houses[i])
 
 
