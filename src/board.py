@@ -7,6 +7,9 @@ class Board:
             [Store()]
             + [House() for _ in range(6)]
             + [Store()]
+            # for both players p, p.houses[0] is their leftmost house, so
+            # the following array needs to be reversed when printing the board
+            # to the screen
             + [House() for _ in range(6)]
         )
 
