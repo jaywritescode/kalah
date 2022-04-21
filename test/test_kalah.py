@@ -11,6 +11,7 @@ from src.move import Move
 def initial_state():
     return Kalah()
 
+
 @pytest.fixture
 def second_move():
     """
