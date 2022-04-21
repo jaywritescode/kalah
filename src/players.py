@@ -38,9 +38,9 @@ class KeyboardInterfacePlayer(AbstractPlayer):
 
     def get_move(self):
         while True:
-            i = int(input("Which house (left-most is #1)? "))
+            i = ord(input("Which house? ")) - ord('a')
             if 0 < i <= 6 and self.houses[i].count > 0:
-                return Move(self, i)
+                return Move(self, self.houses[i])
 
 
 class RandomChoicePlayer(AbstractPlayer):
@@ -48,7 +48,5 @@ class RandomChoicePlayer(AbstractPlayer):
         super().__init__("Computer", houses, store, offset)
 
     def get_move(self):
-        choice = random.choice(
-            [idx for (idx, val) in enumerate(self.houses) if val.count > 0]
-        )
+        choice = random.choice([house for house in self.houses if house.count > 0])
         return Move(self, choice)

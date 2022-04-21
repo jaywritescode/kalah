@@ -1,4 +1,4 @@
-from itertools import cycle
+from itertools import cycle, dropwhile
 from more_itertools import consume
 
 from src.board import Store
@@ -15,8 +15,7 @@ class Move:
 
         return: True if the same player should go again, otherwise False
         """
-        it = cycle(iter(board))
-        consume(it, n=(self.selection + self.player.offset))
+        it = dropwhile(lambda x: x[1] is not self.selection, cycle(iter(board)))
 
         (position, seedable) = next(it)
 
