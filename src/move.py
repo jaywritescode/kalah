@@ -15,7 +15,7 @@ class Move:
 
         return: True if the same player should go again, otherwise False
         """
-        it = dropwhile(lambda x: x[1] is not self.selection, cycle(iter(board)))
+        it = dropwhile(lambda x: x[1] is not self.selection, cycle(enumerate(iter(board))))
 
         (position, seedable) = next(it)
 
@@ -32,7 +32,7 @@ class Move:
             if seedable is self.player.store:
                 return True
             elif seedable in self.player.houses and seedable.count == 1:
-                self.store.seed_sown(seedable.take_all())
-                self.store.seed_sown(board.get_opposite_house(position).take_all())
+                self.player.store.seed_sown(seedable.take_all())
+                self.player.store.seed_sown(board.get_opposite_house(position).take_all())
 
             return False

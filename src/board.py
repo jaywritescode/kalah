@@ -14,7 +14,7 @@ class Board:
         )
 
     def __iter__(self):
-        return enumerate(self.board)
+        return iter(self.board)
 
     def __len__(self):
         return len(self.board)
