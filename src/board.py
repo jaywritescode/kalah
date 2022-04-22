@@ -23,7 +23,8 @@ class Board:
         return self.board[index]
 
     def get_opposite_house(self, position):
-        return len(self.board) - position
+        opposite_index = len(self.board) - position
+        return self.board[opposite_index]
 
     def __str__(self):
         lines = [
