@@ -12,9 +12,9 @@ class Kalah:
     ):
         self.board = Board()
         self.player1 = player1_class.create(
-            self.board[1:7], self.board[7], 0, name="Me"
+            self.board[1:7], self.board[7], name="Me"
         )
-        self.player2 = player2_class.create(self.board[-6:], self.board[0], 7)
+        self.player2 = player2_class.create(self.board[-6:], self.board[0])
 
         self.players = cycle([self.player1, self.player2])
         self.outcome = None
