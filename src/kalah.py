@@ -1,3 +1,4 @@
+from enum import Enum, auto
 from itertools import cycle
 
 from more_itertools import spy
@@ -22,12 +23,11 @@ class Kalah:
     def play(self):
         while self.outcome is None:
             print(self.board)
-
             self.next()
 
     def next(self):
         current_player = next(self.players)
-        if self.is_game_over(current_player):
+        if self.is_game_over():
             self.game_over()
             return self.outcome
 
@@ -35,17 +35,24 @@ class Kalah:
         while move.apply(self.board):
             move = current_player.get_move()
 
-    def is_game_over(self, current_player):
-        return all(house == 0 for house in current_player.houses)
+    def is_game_over(self):
+        return any(
+            all(house.count == 0 for house in p.houses)
+            for p in [self.player1, self.player2]
+        )
 
     def game_over(self):
+        for player in [self.player1, self.player2]:
+            for house in player.houses:
+                player.store.seed_sown(house.take_all())
+
         match self.player1.score - self.player2.score:
             case x if x > 0:
-                self.outcome = self.player1
+                self.outcome = Outcome.PLAYER_ONE_WINS
             case x if x < 0:
-                self.outcome = self.player2
+                self.outcome = Outcome.PLAYER_TWO_WINS
             case _:
-                self.outcome = "it's a tie"
+                self.outcome = Outcome.TIE
 
     def __repr__(self):
         pieces = [str(self.board)]
@@ -55,6 +62,12 @@ class Kalah:
             (next_player, self.players) = spy(self.players)
             pieces.append(f"current player: {str(next_player)}")
         return "\n".join(pieces)
+
+
+class Outcome(Enum):
+    PLAYER_ONE_WINS = auto()
+    PLAYER_TWO_WINS = auto()
+    TIE = auto()
 
 
 # class MinimaxPlayer(AbstractPlayer):

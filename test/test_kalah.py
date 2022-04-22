@@ -3,7 +3,7 @@ from assertpy import assert_that
 from more_itertools import consume
 import pytest
 
-from src.kalah import Kalah
+from src.kalah import Kalah, Outcome
 from src.move import Move
 
 
@@ -24,6 +24,7 @@ def after_one_ply():
     consume(k.players, n=1)
     return k
 
+
 @pytest.fixture
 def after_six_plies():
     """
@@ -34,6 +35,7 @@ def after_six_plies():
         seedable.count = count
     consume(k.players, 6)
     return k
+
 
 @pytest.fixture
 def after_seven_plies():
@@ -47,6 +49,7 @@ def after_seven_plies():
     consume(k.players, 7)
     return k
 
+
 @pytest.fixture
 def after_nine_plies():
     """
@@ -58,6 +61,20 @@ def after_nine_plies():
     consume(k.players, 9)
     return k
 
+
+@pytest.fixture
+def full_game():
+    """
+    The board after 1. a f 2. f b, a 3. b c 4. f, c b 5. f, a f 6. a c
+    7. b d 8. e e 9. d a 10. e, c c 11. b e 12. d f #
+    Player two has only one move available: f. After playing at f, all of
+    player two's houses are empty and the game is over.
+    """
+    k = Kalah()
+    for (seedable, count) in zip(k.board, [9, 3, 1, 1, 1, 0, 4, 29, 0, 0, 0, 0, 0, 0]):
+        seedable.count = count
+    consume(k.players, 23)
+    return k
 
 
 def test_it_plays_one_seed_in_the_next_n_houses(initial_state):
@@ -71,6 +88,7 @@ def test_it_plays_one_seed_in_the_next_n_houses(initial_state):
     kalah.next()
     assert_game(kalah, [0, 0, 5, 5, 5, 5, 4, 0, 4, 4, 4, 4, 4, 4])
 
+
 def test_it_plays_seeds_in_the_opponents_houses(initial_state):
     kalah = initial_state
     player = kalah.player1
@@ -81,6 +99,7 @@ def test_it_plays_seeds_in_the_opponents_houses(initial_state):
 
     kalah.next()
     assert_game(kalah, [0, 4, 4, 4, 4, 4, 0, 1, 5, 5, 5, 4, 4, 4])
+
 
 def test_it_ends_in_the_players_store(initial_state):
     kalah = initial_state
@@ -93,6 +112,7 @@ def test_it_ends_in_the_players_store(initial_state):
     kalah.next()
     assert_game(kalah, [0, 4, 4, 0, 5, 0, 6, 2, 5, 5, 5, 4, 4, 4])
 
+
 def test_player_two_can_move(after_one_ply):
     kalah = after_one_ply
     player = kalah.player2
@@ -103,6 +123,7 @@ def test_player_two_can_move(after_one_ply):
 
     kalah.next()
     assert_game(kalah, [1, 5, 1, 1, 6, 6, 6, 1, 4, 4, 4, 4, 0, 5])
+
 
 def test_player_one_ends_in_their_own_empty_house(after_six_plies):
     kalah = after_six_plies
@@ -115,6 +136,7 @@ def test_player_one_ends_in_their_own_empty_house(after_six_plies):
     kalah.next()
     assert_game(kalah, [3, 6, 5, 0, 0, 1, 1, 9, 1, 8, 0, 0, 7, 7])
 
+
 def test_player_two_ends_in_their_own_empty_house(after_seven_plies):
     kalah = after_seven_plies
     player = kalah.player2
@@ -126,6 +148,7 @@ def test_player_two_ends_in_their_own_empty_house(after_seven_plies):
     kalah.next()
     assert_game(kalah, [4, 1, 5, 0, 0, 1, 7, 3, 0, 7, 0, 8, 6, 6])
 
+
 def test_player_sows_around_the_entire_board(after_nine_plies):
     kalah = after_nine_plies
     player = kalah.player2
@@ -136,6 +159,19 @@ def test_player_sows_around_the_entire_board(after_nine_plies):
 
     kalah.next()
     assert_game(kalah, [5, 8, 1, 1, 1, 4, 2, 7, 2, 2, 9, 2, 4, 0])
+
+
+def test_game_over(full_game):
+    kalah = full_game
+    player = kalah.player2
+
+    player.get_move = mock.MagicMock(
+        name="get_move", return_value=Move(player, player.houses[5])
+    )
+
+    kalah.next()
+    assert_game(kalah, [9, 0, 0, 0, 0, 0, 0, 39, 0, 0, 0, 0, 0, 0])
+    assert_that(kalah.outcome).is_equal_to(Outcome.PLAYER_ONE_WINS)
 
 
 def assert_game(game, board):
